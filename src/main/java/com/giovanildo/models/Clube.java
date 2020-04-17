@@ -10,11 +10,12 @@ import javax.persistence.*;
  */
 @Entity
 //@Table(name = "clube")
+
 public class Clube {
 	/**
 	 * id único do clube
 	 */
-	
+
 //	@GeneratedValue(strategy = GenerationType.AUTO)
 //	@Column(name = "clube_id")
 	private int id;
@@ -23,8 +24,7 @@ public class Clube {
 	 */
 //	@Column
 	private String nome;
-	
-		
+
 	public Clube() {
 		super();
 	}
@@ -34,13 +34,15 @@ public class Clube {
 	 */
 //	@Column
 	private String nacionalidade;
-	
+
 	public String getNacionalidade() {
 		return nacionalidade;
 	}
+
 	public void setNacionalidade(String nacionalidade) {
 		this.nacionalidade = nacionalidade;
 	}
+
 	@Id
 	@GeneratedValue
 	public int getId() {
@@ -50,7 +52,6 @@ public class Clube {
 	public void setId(int id) {
 		this.id = id;
 	}
-
 
 	@Override
 	public String toString() {
@@ -67,8 +68,7 @@ public class Clube {
 
 	/**
 	 * 
-	 * @param nome
-	 *            permite colocar o nome do clube
+	 * @param nome permite colocar o nome do clube
 	 */
 	public void setNome(String nome) {
 		this.nome = nome;
@@ -92,6 +92,5 @@ public class Clube {
 			return false;
 		return true;
 	}
-
 
 }
