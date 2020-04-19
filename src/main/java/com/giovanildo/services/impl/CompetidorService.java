@@ -85,12 +85,10 @@ public class CompetidorService implements CrudService<Competidor, Integer> {
 				em.close();
 			}
 		}
-
 	}
 
 	@Override
 	public Competidor byString(String string) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -1,16 +1,29 @@
 package com.giovanildo.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "tab_competidor_em_campo")
 public class CompetidorEmCampo {
-	private Competidor competidor;
-	private int gols;
-	private boolean mandoDeCampo;
 	
-	public boolean isMandoDeCampo() {
-		return mandoDeCampo;
+	private int id;
+	private Competidor competidor;
+	private Partida partida;
+	private int gols;
+	private boolean jogaEmCasa;
+	
+	
+	@Id
+	@GeneratedValue
+	@Column(name = "competidor_em_campo_id")
+	public int getId() {
+		return id;
 	}
-	public void setMandoDeCampo(boolean mandoDeCampo) {
-		this.mandoDeCampo = mandoDeCampo;
+	public void setId(int id) {
+		this.id = id;
 	}
+	@ManyToOne
+	@JoinColumn(name = "competidor_id")
 	public Competidor getCompetidor() {
 		return competidor;
 	}
@@ -58,5 +71,21 @@ public class CompetidorEmCampo {
 			return false;
 		return true;
 	}
+	public boolean isAnfitriao() {
+		return jogaEmCasa;
+	}
+	public void setAnfitriao(boolean anfitriao) {
+		this.jogaEmCasa = anfitriao;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name = "partida_id")
+	public Partida getPartida() {
+		return partida;
+	}
+	public void setPartida(Partida partida) {
+		this.partida = partida;
+	}
+	
 	
 }

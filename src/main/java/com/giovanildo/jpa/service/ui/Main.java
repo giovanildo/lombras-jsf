@@ -1,12 +1,7 @@
 package com.giovanildo.jpa.service.ui;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-
 import com.giovanildo.jpa.service.interfaces.CrudService;
 import com.giovanildo.models.Clube;
-import com.giovanildo.models.Competidor;
 import com.giovanildo.models.EAtleta;
 import com.giovanildo.models.Torneio;
 import com.giovanildo.services.impl.ClubeService;
@@ -59,20 +54,20 @@ public class Main {
 
 		// adicionando Torneio/Competidores
 
-		Torneio torneio = new Torneio();
-		torneio.setNome("Cachorro na rua");
-		torneio.setPorqueDoNome("correndo atrás dos bichos na rua");
-
-		Collection<Competidor> competidores = new ArrayList<>();
-
-		competidores.add(new Competidor(torneio, eaService.byString("Giovanildo"), clubeService.byString("Porto")));
-		competidores.add(new Competidor(torneio, eaService.byString("Genilson"), clubeService.byString("Manchester")));
-		competidores.add(new Competidor(torneio, eaService.byString("Fabiano"), clubeService.byString("Real")));
-		competidores.add(new Competidor(torneio, eaService.byString("Zaldir"), clubeService.byString("Baia")));
-
-		torneio.setCompetidores(competidores);
-
-		torneioService.insert(torneio);
+//		Torneio torneio = new Torneio();
+//		torneio.setNome("Cachorro na rua");
+//		torneio.setPorqueDoNome("correndo atrás dos bichos na rua");
+//
+//		Collection<Competidor> competidores = new ArrayList<>();
+//
+//		competidores.add(new Competidor(torneio, eaService.byString("Giovanildo"), clubeService.byString("Porto")));
+//		competidores.add(new Competidor(torneio, eaService.byString("Genilson"), clubeService.byString("Manchester")));
+//		competidores.add(new Competidor(torneio, eaService.byString("Fabiano"), clubeService.byString("Real")));
+//		competidores.add(new Competidor(torneio, eaService.byString("Zaldir"), clubeService.byString("Baia")));
+//
+//		torneio.setCompetidores(competidores);
+//
+//		torneioService.insert(torneio);
 		
 		System.out.println(" --------------- Listando Dados ---------------------");
 

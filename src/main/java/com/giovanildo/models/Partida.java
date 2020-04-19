@@ -1,43 +1,35 @@
 package com.giovanildo.models;
 
+import java.util.Collection;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 /**
  * 
  * @author giovanildo classe que configura as partidas
  */
+@Entity
+@Table (name = "tab_partida")
 public class Partida {
 
 	/**
 	 * id único
 	 */
 	private int id;
-	/**
-	 * clube que joga em casa
-	 */
-	private CompetidorEmCampo anfitriao;
-	/**
-	 * clube que joga fora
-	 */
-	private CompetidorEmCampo visitante;
+	
+	
+	private Collection<CompetidorEmCampo> competidoresEmCampo;
+	
 	/**
 	 * saber se a partida foi encerrada ou não
 	 */
 
 	private boolean encerrada;
-
-	
-	/**
-	 * 
-	 * @param id
-	 * @param anfitriao
-	 * @param visitante
-	 * @param encerrada
-	 */
-	public Partida(CompetidorEmCampo anfitriao, CompetidorEmCampo visitante) {
-		super();
-		this.anfitriao = anfitriao;
-		this.visitante = visitante;
-		this.encerrada = false;
-	}
 	
 	/**
 	 * Exigência do JPA 
@@ -49,6 +41,9 @@ public class Partida {
 	 * 
 	 * @return id
 	 */
+	@Id
+	@GeneratedValue
+	@Column(name = "partida_id")
 	public int getId() {
 		return id;
 	}
@@ -61,38 +56,8 @@ public class Partida {
 		this.id = id;
 	}
 
-	/**
-	 * @return o anfitrião da partida
-	 */
 
-	public CompetidorEmCampo getAnfitriao() {
-		return anfitriao;
-	}
 
-	/**
-	 * 
-	 * @return a equipe que joga fora de casa
-	 */
-	public CompetidorEmCampo getVisitante() {
-		return visitante;
-	}
-
-	/**
-	 * 
-	 * @param anfitriao
-	 */
-	public void setAnfitriao(CompetidorEmCampo anfitriao) {
-		this.anfitriao = anfitriao;
-	}
-
-	/**
-	 * 
-	 * @param visitante
-	 */
-
-	public void setVisitante(CompetidorEmCampo visitante) {
-		this.visitante = visitante;
-	}
 	
 
 	/**
@@ -111,17 +76,25 @@ public class Partida {
 		this.encerrada = encerrada;
 	}
 
-	@Override
-	public String toString() {
-		String clubeMandante = anfitriao.getCompetidor().getClube().getNome();
-		String clubeVisitante = visitante.getCompetidor().getClube().getNome();
-		String eAtletaMandante = anfitriao.getCompetidor().geteAtleta().getNome().toUpperCase();
-		String eAtletaVisitante = visitante.getCompetidor().geteAtleta().getNome().toUpperCase();
+//	@Override
+//	public String toString() {
+//		String clubeMandante = anfitriao.getCompetidor().getClube().getNome();
+//		String clubeVisitante = visitante.getCompetidor().getClube().getNome();
+//		String eAtletaMandante = anfitriao.getCompetidor().geteAtleta().getNome().toUpperCase();
+//		String eAtletaVisitante = visitante.getCompetidor().geteAtleta().getNome().toUpperCase();
+//
+//		int golsMandante = this.anfitriao.getGols();
+//		int golsVisitante = this.visitante.getGols();
+//
+//		return eAtletaMandante + " - " + clubeMandante + " " + golsMandante + " x " + golsVisitante + " "
+//				+ clubeVisitante + " - " + eAtletaVisitante;
+//	}
+	@OneToMany(mappedBy = "partida")
+	public Collection<CompetidorEmCampo> getCompetidoresEmCampo() {
+		return competidoresEmCampo;
+	}
 
-		int golsMandante = this.anfitriao.getGols();
-		int golsVisitante = this.visitante.getGols();
-
-		return eAtletaMandante + " - " + clubeMandante + " " + golsMandante + " x " + golsVisitante + " "
-				+ clubeVisitante + " - " + eAtletaVisitante;
+	public void setCompetidoresEmCampo(Collection<CompetidorEmCampo> competidoresEmCampo) {
+		this.competidoresEmCampo = competidoresEmCampo;
 	}
 }
