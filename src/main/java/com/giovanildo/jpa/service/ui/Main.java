@@ -1,114 +1,95 @@
 package com.giovanildo.jpa.service.ui;
 
-import java.util.List;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 import com.giovanildo.jpa.service.interfaces.CrudService;
 import com.giovanildo.models.Clube;
+import com.giovanildo.models.Competidor;
+import com.giovanildo.models.EAtleta;
+import com.giovanildo.models.Torneio;
 import com.giovanildo.services.impl.ClubeService;
-
+import com.giovanildo.services.impl.EatletaService;
+import com.giovanildo.services.impl.TorneioService;
 
 public class Main {
-	private static Scanner SCANNER = new Scanner(System.in);
-
 	public static void main(String[] args) {
-		listarClubes();
+		System.out.println("Testando JPA - competidor");
 
-		int opcao = 0;
-		while (opcao != 6) {
+		// instancia os objetos a serem persistidos e altera-os
+		// instância um Crud Service
+		// faz um foreach mostrando o conteudo da tabela
 
-			menu();
+		CrudService<EAtleta, Integer> eaService = new EatletaService();
+		CrudService<Clube, Integer> clubeService = new ClubeService();
+		CrudService<Torneio, Integer> torneioService = new TorneioService();
 
-			opcao = SCANNER.nextInt();
-			SCANNER.nextLine();
-			switch (opcao) {
-			case 1:
-				listarClubes();
-				break;
-			case 2:
-				inserirClube();
-				break;
-			case 3:
-				atualizarClube();
-				break;
-			default:
-				System.out.println("** opção inválida! **");
-				break;
-			}
+//		Torneio torneio = new Torneio();
+//		torneio.setDataTorneio(new Date());
+//		torneio.setNome("Corona Varios");
+//		torneio.setPorqueDoNome("ajasdjhasjhsdah");
+//
+//		Collection<Competidor> competidores = new ArrayList<Competidor>();
+//
+//		competidores.add(new Competidor(eaService.byString("Giovanildo"), torneio, clubeService.byId(1)));
+//		competidores.add(new Competidor(eaService.byString("Zaldir"), torneio, clubeService.byId(2)));
+//		competidores.add(new Competidor(eaService.byString("Fabiano"), torneio, clubeService.byId(3)));
+//		torneio.setCompetidores(competidores);
+//		
+//		torneioService.insert(torneio);
+
+		// instancia os objetos a serem persistidos e altera-os
+		// instância um Crud Service
+		// faz um foreach mostrando o conteudo da tabela
+
+		// adicionando clubes
+
+//		clubeService.insert(new Clube("Borrusia", "Alemanha"));
+//		clubeService.insert(new Clube("Real", "Espanha"));
+//		clubeService.insert(new Clube("Manchester", "Inglaterra"));
+//		clubeService.insert(new Clube("Porto", "Portugal"));
+
+		// adicionando Eatletas
+
+//		eaService.insert(new EAtleta("Giovanildo"));
+//		eaService.insert(new EAtleta("Genilson"));
+//		eaService.insert(new EAtleta("Fabiano"));
+//		eaService.insert(new EAtleta("Zaldir"));
+
+		// adicionando Torneio/Competidores
+
+		Torneio torneio = new Torneio();
+		torneio.setNome("Cachorro na rua");
+		torneio.setPorqueDoNome("correndo atrás dos bichos na rua");
+
+		Collection<Competidor> competidores = new ArrayList<>();
+
+		competidores.add(new Competidor(torneio, eaService.byString("Giovanildo"), clubeService.byString("Porto")));
+		competidores.add(new Competidor(torneio, eaService.byString("Genilson"), clubeService.byString("Manchester")));
+		competidores.add(new Competidor(torneio, eaService.byString("Fabiano"), clubeService.byString("Real")));
+		competidores.add(new Competidor(torneio, eaService.byString("Zaldir"), clubeService.byString("Baia")));
+
+		torneio.setCompetidores(competidores);
+
+		torneioService.insert(torneio);
+		
+		System.out.println(" --------------- Listando Dados ---------------------");
+
+		for (Clube daVez : clubeService.all()) {
+			System.out.println(daVez.toString());
 		}
 
-		System.out.println("Inté mais");
-
-	}
-
-	private static void atualizarClube() {
-		System.out.println("\n Atualiza��o de Cadastro de Clube");
-		System.out.println("Digite o ID da Clube a ser atualizada: ");
-		int idClube = SCANNER.nextInt();
-		SCANNER.nextLine();
-		CrudService<Clube,Integer> ClubeService = new ClubeService();
-		Clube ClubeAtual = ClubeService.byId(idClube);
-		if(ClubeAtual !=null) {
-			System.out.println("Clube encontrado: ");
-			System.out.println(String.format("- nome %s", ClubeAtual.getNome()));
-			System.out.println(String.format("- Nacionalidade %s", ClubeAtual.getNacionalidade()));
-			System.out.print(" - Novo nome: ");
-			ClubeAtual.setNome(SCANNER.nextLine());
-			System.out.print(" - Nova Nacionalidade: ");
-			ClubeAtual.setNacionalidade(SCANNER.nextLine());
-			ClubeService.update(ClubeAtual);
-			System.out.println("Dados de Clubes Atualizados");
-		} else {
-			System.out.println("N�o existem Clubes com esse id. Lascouse");
+		for (EAtleta daVez : eaService.all()) {
+			System.out.println(daVez.toString());
 		}
-	}
 
-	private static void menu() {
-		System.out.println("\n Escolha uma a��o: ");
-		System.out.println("1, Listar Clubes");
-		System.out.println("2, Inserir Clube");
-		System.out.println("3, Atualizar Clube");
-		System.out.println("4, Excluir Clube");
-		System.out.println("5, Pesquisar Clube por nome");
-		System.out.println("6, SAIR  \n");
-		System.out.println("\n Sua op��o: ");
-
-	}
-
-	private static void inserirClube() {
-
-
-
-		System.out.println(" ** Inclus�o de Clube");
-		Clube novoClube = new Clube();
-		System.out.println("Nome: ");
-		novoClube.setNome(SCANNER.nextLine());
-		System.out.println("Nacionalidade: ");
-		novoClube.setNacionalidade(SCANNER.nextLine());
-
-		CrudService<Clube, Integer> ClubeService = new ClubeService();
-
-		ClubeService.insert(novoClube);
-
-		System.out.println("Caboco" + novoClube.getNome() + "Cadastrado com sucesso");
-
-	}
-
-	private static void listarClubes() {
-		System.out.println("---------------------- Listando por JPA ----------------------");
-		System.out.println("---------------- Lista de Clubes Cadastradas-----------------/n");
-		CrudService<Clube, Integer> ClubeService = new ClubeService();
-
-		try {
-			List<Clube> Clubes = ClubeService.all();
-			Clubes.forEach(Clube -> System.out.println(String.format(" - (%d) %s %s ", Clube.getId(),
-					Clube.getNome(), Clube.getNacionalidade())));
-			if (Clubes.isEmpty()) {
-				System.out.println("n�o tem registros");
-			}
-		} catch (Exception e) {
-			System.out.println("Houve erro ao rodar o JPA " + e.getMessage());
+		for (Torneio daVez : torneioService.all()) {
+			System.out.println(daVez.toString());
 		}
+
+		System.out.println("Inserido com sucesso!");
+
 	}
 
 }
