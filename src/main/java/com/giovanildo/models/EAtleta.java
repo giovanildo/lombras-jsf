@@ -1,17 +1,22 @@
 package com.giovanildo.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * 
  * @author giovanildo classe grava informações do jogador de videogame
  */
-//@Entity
-//@Table(name = "eatleta")
+@Entity
+@Table(name = "tab_eatleta")
 public class EAtleta {
 
 	/**
 	 * id único do EAtleta
 	 */
-//	@Id
+
 	private int id;
 	/**
 	 * Nome do Jogador de Vídeo Game
@@ -23,6 +28,8 @@ public class EAtleta {
 	 * 
 	 * @return id
 	 */
+	@Id
+	@GeneratedValue
 	public int getId() {
 		return id;
 	}

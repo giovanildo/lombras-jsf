@@ -9,35 +9,40 @@ import javax.persistence.*;
  *         Essa classe grava informações referente ao Clube de Futebol
  */
 @Entity
-//@Table(name = "clube")
-
+@Table(name = "tab_clube")
 public class Clube {
 	/**
 	 * id único do clube
 	 */
 
-//	@GeneratedValue(strategy = GenerationType.AUTO)
-//	@Column(name = "clube_id")
 	private int id;
 	/**
 	 * nome do clube
 	 */
-//	@Column
 	private String nome;
-
-	public Clube() {
-		super();
-	}
 
 	/**
 	 * Nacionalidade do Clube
 	 */
-//	@Column
 	private String nacionalidade;
 
+	
+	public Clube() {
+		super();
+	}
+
+	
+	@Column(length=60,  nullable = false)
 	public String getNacionalidade() {
 		return nacionalidade;
 	}
+
+	public Clube(String nome, String nacionalidade) {
+		super();
+		this.nome = nome;
+		this.nacionalidade = nacionalidade;
+	}
+
 
 	public void setNacionalidade(String nacionalidade) {
 		this.nacionalidade = nacionalidade;
@@ -45,6 +50,7 @@ public class Clube {
 
 	@Id
 	@GeneratedValue
+	@Column(name = "clube_id")
 	public int getId() {
 		return id;
 	}
@@ -62,6 +68,7 @@ public class Clube {
 	 * 
 	 * @return String nome
 	 */
+	@Column(length=60,  nullable = false)
 	public String getNome() {
 		return nome;
 	}
@@ -70,6 +77,7 @@ public class Clube {
 	 * 
 	 * @param nome permite colocar o nome do clube
 	 */
+	
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
