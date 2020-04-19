@@ -37,6 +37,13 @@ public class Partida {
 	public Partida() {}
 	
 
+	public Partida(Collection<CompetidorEmCampo> competidoresEmCampo) {
+		super();
+		this.competidoresEmCampo = competidoresEmCampo;
+		this.encerrada = false;
+	}
+
+
 	/**
 	 * 
 	 * @return id

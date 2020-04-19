@@ -22,7 +22,7 @@ public class CompetidorEmCampo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name = "competidor_id")
 	public Competidor getCompetidor() {
 		return competidor;
@@ -71,13 +71,7 @@ public class CompetidorEmCampo {
 			return false;
 		return true;
 	}
-	public boolean isAnfitriao() {
-		return jogaEmCasa;
-	}
-	public void setAnfitriao(boolean anfitriao) {
-		this.jogaEmCasa = anfitriao;
-	}
-	
+
 	@ManyToOne
 	@JoinColumn(name = "partida_id")
 	public Partida getPartida() {
@@ -85,6 +79,12 @@ public class CompetidorEmCampo {
 	}
 	public void setPartida(Partida partida) {
 		this.partida = partida;
+	}
+	public boolean isJogaEmCasa() {
+		return jogaEmCasa;
+	}
+	public void setJogaEmCasa(boolean jogaEmCasa) {
+		this.jogaEmCasa = jogaEmCasa;
 	}
 	
 	
