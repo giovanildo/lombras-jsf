@@ -1,36 +1,51 @@
 package com.giovanildo.models;
 
 import java.util.Collection;
+import java.util.Date;
 
-//@Entity
-//@Table(name = "torneio")
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name = "tab_torneio")
 public class Torneio {
 	/**
 	 * id do torneio
 	 */
-//	@Id
 	private int id;
 	/**
 	 * nome do torneio
 	 */
-//	@Column
 	private String nome;
 	/**
 	 * Explicação do nome
 	 */
-//	@Column
 	private String porqueDoNome;
 
-//	@ManyToMany
-//	@JoinTable (name="torneio_tem_competidores", 
-//	joinColumns = {@JoinColumn(name = "torneio_id")},
-//	inverseJoinColumns = {@JoinColumn (name="competidor_id")})
+	/**
+	 * Data em que o torneio foi jogado
+	 */
+
+	private Date dataTorneio;
+
+	/**
+	 * Pessoas que vão jogar no torneio
+	 */
 	private Collection<Competidor> competidores;
-	
+
 	/**
 	 * 
 	 * @return id
 	 */
+	@Id
+	@GeneratedValue
+	@Column(name = "torneio_id")
 	public int getId() {
 		return id;
 	}
@@ -57,21 +72,26 @@ public class Torneio {
 
 	/**
 	 * 
-	 * @param nome torneio
+	 * @param nome
+	 * @param porqueDoNome
 	 */
-	public Torneio(String nome, String porqueDoNome) {
+	public Torneio(String nome, String porqueDoNome, Collection<Competidor> competidores) {
 		super();
+		this.dataTorneio = new Date();
 		this.nome = nome;
 		this.porqueDoNome = porqueDoNome;
+		this.competidores = competidores;
 	}
-	
+
 	public Torneio() {
-		super();		
+		super();
+		this.dataTorneio = new Date();
 	}
 
 	@Override
 	public String toString() {
-		return nome;
+		
+		return nome + "  " + porqueDoNome;
 	}
 
 	/**
@@ -99,7 +119,7 @@ public class Torneio {
 		if (getClass() != obj.getClass())
 			return false;
 		Torneio other = (Torneio) obj;
-		if (id != other.id)
+		if (id != other.id) 
 			return false;
 		if (nome == null) {
 			if (other.nome != null)
@@ -108,12 +128,22 @@ public class Torneio {
 			return false;
 		return true;
 	}
-
+	@OneToMany(mappedBy = "torneio")
 	public Collection<Competidor> getCompetidores() {
 		return competidores;
 	}
 
 	public void setCompetidores(Collection<Competidor> competidores) {
 		this.competidores = competidores;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_torneio", nullable = false)
+	public Date getDataTorneio() {
+		return dataTorneio;
+	}
+
+	public void setDataTorneio(Date dataTorneio) {
+		this.dataTorneio = dataTorneio;
 	}
 }

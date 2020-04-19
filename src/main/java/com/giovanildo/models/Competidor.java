@@ -1,39 +1,42 @@
 package com.giovanildo.models;
 
+import javax.persistence.*;
+
 /**
  * 
  * @author giovanildo classe que guarda as informações do clube/jogador de vídeo
  *         game na partida
  */
-//@Entity
-//@Table(name = "competidor")
+@Entity
+@Table(name = "tab_competidor")
 public class Competidor {
 	/**
 	 * id único do eatleta no torneio
 	 */
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.AUTO)
-	//@Column(name = "competidor_id")
+
 	private int id;
 
 	/**
 	 * Jogador de Video Game
 	 */
-	
-//	@Column
 	private EAtleta eAtleta;
 
 	/**
 	 * clube que o jogador de vídeogame vai jogar
 	 */
-//	@OneToOne
-//	@Column
 	private Clube clube;
+	/**
+	 * Torneio em que o competidor vai jogar
+	 */
+	private Torneio torneio;
 
 	/**
 	 * 
 	 * @return id
 	 */
+	@Id
+	@GeneratedValue
+	@Column(name = "competidor_id")
 	public int getId() {
 		return id;
 	}
@@ -50,6 +53,8 @@ public class Competidor {
 	 * 
 	 * @return o jogador de videogame
 	 */
+	@OneToOne (optional = false)
+	@JoinColumn(name = "eatleta_id")
 	public EAtleta geteAtleta() {
 		return eAtleta;
 	}
@@ -67,6 +72,8 @@ public class Competidor {
 	 * 
 	 * @return o clube que o jogador de video game está jogando
 	 */
+	@OneToOne 
+	@JoinColumn(name = "clube_id")
 	public Clube getClube() {
 		return clube;
 	}
@@ -82,23 +89,23 @@ public class Competidor {
 	/**
 	 * 
 	 * @param eAtleta
-	 * @param torneio
 	 * @param clube
 	 * 
 	 */
-
-	public Competidor(EAtleta eAtleta, Torneio torneio, Clube clube) {
+	public Competidor(Torneio torneio, EAtleta eAtleta, Clube clube) {
 		super();
 		this.eAtleta = eAtleta;
 		this.clube = clube;
+		this.torneio = torneio;
 	}
+
 	public Competidor() {
 		super();
 	}
 
 	@Override
 	public String toString() {
-		return eAtleta + "   " + clube + "   ";
+		return eAtleta + "   " + clube + "  " + torneio;
 	}
 
 	@Override
@@ -124,6 +131,15 @@ public class Competidor {
 			return false;
 
 		return true;
+	}
+	@ManyToOne
+	@JoinColumn(name = "torneio_id")
+	public Torneio getTorneio() {
+		return torneio;
+	}
+
+	public void setTorneio(Torneio torneio) {
+		this.torneio = torneio;
 	}
 
 }
