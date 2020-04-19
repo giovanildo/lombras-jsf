@@ -5,17 +5,17 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import com.giovanildo.jpa.service.interfaces.CrudService;
-import com.giovanildo.models.Clube;
+import com.giovanildo.models.EAtleta;
 import com.giovanildo.utils.JpaUtils;
 
-public class ClubeService implements CrudService<Clube, Integer> {
+public class EatletaService implements CrudService<EAtleta, Integer> {
 
 	@Override
-	public List<Clube> all() {
+	public List<EAtleta> all() {
 		EntityManager em = null;
 		try {
 			em = JpaUtils.getEntityManager();
-			return em.createQuery("from Clube", Clube.class).getResultList();
+			return em.createQuery("from EAtleta", EAtleta.class).getResultList();
 		} finally {
 			if (em != null) {
 				em.close();
@@ -24,11 +24,11 @@ public class ClubeService implements CrudService<Clube, Integer> {
 	}
 
 	@Override
-	public Clube byId(Integer id) {
+	public EAtleta byId(Integer id) {
 		EntityManager em = null;
 		try {
 			em = JpaUtils.getEntityManager();
-			return em.find(Clube.class, id);
+			return em.find(EAtleta.class, id);
 		} finally {
 			if (em != null) {
 				em.close();
@@ -37,7 +37,7 @@ public class ClubeService implements CrudService<Clube, Integer> {
 	}
 
 	@Override
-	public Clube insert(Clube entity) {
+	public EAtleta insert(EAtleta entity) {
 		EntityManager em = null;
 
 		try {
@@ -53,7 +53,7 @@ public class ClubeService implements CrudService<Clube, Integer> {
 	}
 
 	@Override
-	public Clube update(Clube entity) {
+	public EAtleta update(EAtleta entity) {
 		EntityManager em = null;
 		try {
 			em = JpaUtils.getEntityManager();
@@ -68,7 +68,7 @@ public class ClubeService implements CrudService<Clube, Integer> {
 	}
 
 	@Override
-	public void delete(Clube entity) {
+	public void delete(EAtleta entity) {
 		EntityManager em = null;
 		try {
 			em = JpaUtils.getEntityManager();
@@ -101,9 +101,11 @@ public class ClubeService implements CrudService<Clube, Integer> {
 	}
 
 	@Override
-	public Clube byString(String string) {
-		for (Clube daVez : all()) {
-			if(daVez.getNome().equals(string)) return daVez;
+	public EAtleta byString(String string) {
+		for (EAtleta daVez : all()) {
+			if (daVez.getNome().equals(string)) {
+				return daVez;
+			}
 		}
 		return null;
 	}
