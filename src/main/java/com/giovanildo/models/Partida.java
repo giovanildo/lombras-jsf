@@ -1,9 +1,16 @@
 package com.giovanildo.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * 
  * @author giovanildo classe que configura as partidas
  */
+//@Entity
+//@Table (name = "tab_partida")
 public class Partida {
 
 	/**
@@ -48,6 +55,8 @@ public class Partida {
 	 * 
 	 * @return id
 	 */
+	@Id
+	@GeneratedValue
 	public int getId() {
 		return id;
 	}
