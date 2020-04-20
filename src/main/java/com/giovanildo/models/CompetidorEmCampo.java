@@ -40,16 +40,17 @@ public class CompetidorEmCampo {
 		super();	
 	}
 	
-	public CompetidorEmCampo(Competidor competidor, int gols, boolean jogaEmCasa) {
+	public CompetidorEmCampo(Partida partida, Competidor competidor,  int gols, boolean jogaEmCasa) {
 		super();
 		this.competidor = competidor;
+		this.partida = partida;
 		this.gols = gols;
 		this.jogaEmCasa = jogaEmCasa;
 	}
-	@Override
-	public String toString() {
-		return "CompetidorEmCampo [competidor=" + competidor + ", gols=" + gols + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "CompetidorEmCampo [competidor=" + competidor + ", gols=" + gols + "]";
+//	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -57,6 +58,11 @@ public class CompetidorEmCampo {
 		result = prime * result + ((competidor == null) ? 0 : competidor.hashCode());
 		result = prime * result + gols;
 		return result;
+	}
+	@Override
+	public String toString() {
+		return "CompetidorEmCampo [competidor=" + competidor + ", partida=" + partida + ", gols=" + gols
+				+ ", jogaEmCasa=" + jogaEmCasa + "]";
 	}
 	@Override
 	public boolean equals(Object obj) {

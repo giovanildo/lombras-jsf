@@ -127,6 +127,11 @@ public class Partida {
 		return competidoresEmCampo;
 	}
 
+	@Override
+	public String toString() {
+		return "Partida [id=" + id + ", competidoresEmCampo=" + competidoresEmCampo + ", encerrada=" + encerrada + "]";
+	}
+
 	public void setCompetidoresEmCampo(List<CompetidorEmCampo> competidoresEmCampo) {
 		this.competidoresEmCampo = competidoresEmCampo;
 	}
