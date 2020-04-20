@@ -53,8 +53,8 @@ public class Competidor {
 	 * 
 	 * @return o jogador de videogame
 	 */
-	@OneToOne (optional = false)
-	@JoinColumn(name = "eatleta_id")
+	@OneToOne
+	@JoinColumn(name = "eatleta_id", unique = false, nullable = false)
 	public EAtleta geteAtleta() {
 		return eAtleta;
 	}
@@ -73,7 +73,7 @@ public class Competidor {
 	 * @return o clube que o jogador de video game está jogando
 	 */
 	@OneToOne 
-	@JoinColumn(name = "clube_id")
+	@JoinColumn(name = "clube_id", unique = false, nullable = false)
 	public Clube getClube() {
 		return clube;
 	}

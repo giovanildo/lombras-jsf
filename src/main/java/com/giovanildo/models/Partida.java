@@ -1,6 +1,6 @@
 package com.giovanildo.models;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,35 +14,66 @@ import javax.persistence.Table;
  * @author giovanildo classe que configura as partidas
  */
 @Entity
-@Table (name = "tab_partida")
+@Table(name = "tab_partida")
 public class Partida {
 
 	/**
 	 * id único
 	 */
 	private int id;
-	
-	
-	private Collection<CompetidorEmCampo> competidoresEmCampo;
-	
+
+	private List<CompetidorEmCampo> competidoresEmCampo;
+
 	/**
 	 * saber se a partida foi encerrada ou não
 	 */
 
 	private boolean encerrada;
-	
-	/**
-	 * Exigência do JPA 
-	 */
-	public Partida() {}
-	
 
-	public Partida(Collection<CompetidorEmCampo> competidoresEmCampo) {
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((competidoresEmCampo == null) ? 0 : competidoresEmCampo.hashCode());
+		result = prime * result + (encerrada ? 1231 : 1237);
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Partida other = (Partida) obj;
+		if (competidoresEmCampo == null) {
+			if (other.competidoresEmCampo != null)
+				return false;
+		} else if (!competidoresEmCampo.equals(other.competidoresEmCampo))
+			return false;
+		if (encerrada != other.encerrada)
+			return false;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+
+	/**
+	 * Exigência do JPA
+	 */
+	public Partida() {
+		super();
+		this.encerrada = false;
+	}
+
+	public Partida(List<CompetidorEmCampo> competidoresEmCampo) {
 		super();
 		this.competidoresEmCampo = competidoresEmCampo;
 		this.encerrada = false;
 	}
-
 
 	/**
 	 * 
@@ -63,10 +94,6 @@ public class Partida {
 		this.id = id;
 	}
 
-
-
-	
-
 	/**
 	 * @return the encerrada verifica se a partida está encerrada
 	 */
@@ -76,8 +103,7 @@ public class Partida {
 	}
 
 	/**
-	 * @param encerrada
-	 *            the encerrada to set
+	 * @param encerrada the encerrada to set
 	 */
 	public void setEncerrada(boolean encerrada) {
 		this.encerrada = encerrada;
@@ -97,11 +123,11 @@ public class Partida {
 //				+ clubeVisitante + " - " + eAtletaVisitante;
 //	}
 	@OneToMany(mappedBy = "partida")
-	public Collection<CompetidorEmCampo> getCompetidoresEmCampo() {
+	public List<CompetidorEmCampo> getCompetidoresEmCampo() {
 		return competidoresEmCampo;
 	}
 
-	public void setCompetidoresEmCampo(Collection<CompetidorEmCampo> competidoresEmCampo) {
+	public void setCompetidoresEmCampo(List<CompetidorEmCampo> competidoresEmCampo) {
 		this.competidoresEmCampo = competidoresEmCampo;
 	}
 }

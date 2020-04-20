@@ -12,12 +12,28 @@ public class CompetidorService implements CrudService<Competidor, Integer> {
 
 	@Override
 	public List<Competidor> all() {
-		return JpaUtils.getEntityManager().createQuery("from Competidor", Competidor.class).getResultList();
+		EntityManager em = null;
+		try {
+			em = JpaUtils.getEntityManager();
+			return em.createQuery("from Competidor", Competidor.class).getResultList();
+		} finally {
+			if (em != null) {
+				em.close();
+			}
+		}
 	}
 
 	@Override
 	public Competidor byId(Integer id) {
-		return JpaUtils.getEntityManager().find(Competidor.class, id);
+		EntityManager em = null;
+		try {
+			em = JpaUtils.getEntityManager();
+			return em.find(Competidor.class, id);
+		} finally {
+			if (em != null) {
+				em.close();
+			}
+		}
 	}
 
 	@Override
@@ -27,8 +43,6 @@ public class CompetidorService implements CrudService<Competidor, Integer> {
 		try {
 			em = JpaUtils.getEntityManager();
 			em.getTransaction().begin();
-//			em.persist(entity.geteAtleta());
-//			em.persist(entity.getClube());
 			em.persist(entity);
 			em.getTransaction().commit();
 			return entity;
@@ -44,8 +58,6 @@ public class CompetidorService implements CrudService<Competidor, Integer> {
 		try {
 			em = JpaUtils.getEntityManager();
 			em.getTransaction().begin();
-			em.merge(entity.geteAtleta());
-			em.merge(entity.getClube());
 			em.merge(entity);
 			em.getTransaction().commit();
 			return entity;
@@ -85,10 +97,14 @@ public class CompetidorService implements CrudService<Competidor, Integer> {
 				em.close();
 			}
 		}
+
 	}
 
 	@Override
 	public Competidor byString(String string) {
+		for (Competidor daVez : all()) {
+			if(daVez.geteAtleta().getNome().equals(string)) return daVez;
+		}
 		return null;
 	}
 

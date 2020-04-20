@@ -41,7 +41,6 @@ public class TorneioService implements CrudService<Torneio, Integer> {
 	@Override
 	public Torneio insert(Torneio entity) {
 		EntityManager em = null;
-
 		try {
 			em = JpaUtils.getEntityManager();
 			em.getTransaction().begin();

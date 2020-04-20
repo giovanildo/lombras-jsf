@@ -12,7 +12,6 @@ public class CompetidorEmCampo {
 	private int gols;
 	private boolean jogaEmCasa;
 	
-	
 	@Id
 	@GeneratedValue
 	@Column(name = "competidor_em_campo_id")
@@ -36,10 +35,16 @@ public class CompetidorEmCampo {
 	public void setGols(int gols) {
 		this.gols = gols;
 	}
-	public CompetidorEmCampo(Competidor competidor, int gols) {
+	
+	public CompetidorEmCampo() {
+		super();	
+	}
+	
+	public CompetidorEmCampo(Competidor competidor, int gols, boolean jogaEmCasa) {
 		super();
 		this.competidor = competidor;
 		this.gols = gols;
+		this.jogaEmCasa = jogaEmCasa;
 	}
 	@Override
 	public String toString() {
