@@ -130,7 +130,9 @@ public class Torneio {
 	}
 	@OneToMany(mappedBy = "torneio")
 	public Collection<Competidor> getCompetidores() {
+		
 		return competidores;
+		
 	}
 
 	public void setCompetidores(Collection<Competidor> competidores) {
