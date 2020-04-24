@@ -6,6 +6,9 @@
 	<persistence-unit name="lombras-jsf">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<class>com.giovanildo.models.Clube</class>
+		<class>com.giovanildo.models.EAtleta</class>
+		<class>com.giovanildo.models.Torneio</class>
+		<class>com.giovanildo.models.Competidor</class>
 		<properties>
 			<!-- JPA -->
 			<property name="javax.persistence.jdbc.driver"

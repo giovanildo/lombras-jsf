@@ -10,16 +10,21 @@
 <h:body>
 	<h1>Cadastro de Clubes</h1>
 	<h:form>
+
+
 		<fieldset>
-			<legend>Dados do Clube</legend>
 			<h:panelGrid>
+				<legend>Dados do Clube</legend>
 				<h:outputLabel value="Nome: " for="nomeClube" />
-				<h:inputText id="nomeClube" value="#{clubeBean.clube.nome}"/>
+				<h:inputText id="nomeClube" value="#{clubeBean.clube.nome}" />
 				<h:outputLabel value="Nacionalidade: " for="nacionalidade" />
-				<h:inputText id="nacionalidade" value="#{clubeBean.clube.nacionalidade}" />
+				<h:inputText id="nacionalidade"
+					value="#{clubeBean.clube.nacionalidade}" />
 				<h:commandButton value="Salvar" actionListener="#{clubeBean.salvar}" />
 			</h:panelGrid>
 		</fieldset>
+
+
 	</h:form>
 </h:body>
 </html>

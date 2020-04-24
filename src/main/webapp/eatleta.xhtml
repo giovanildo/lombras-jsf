@@ -2,16 +2,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html 
-xmlns="http://www.w3.org/1999/xhtml"
-xmlns:h ="http://xmlns.jcp.org/jsf/html"
-xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-xmlns:f ="http://xmlns.jcp.org/jsf/core"
-xmlns:p="http://primefaces.org/ui"
->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
-<f:view>
-	<h:outputLabel>eatleta</h:outputLabel>
-</f:view>
+<h:body>
+	<h:form>
+		<h1>Cadastro de e-Atletas</h1>
+		<fieldset>
+			<h:panelGrid>
+				<legend>Dados do e-Atleta</legend>
+				<h:outputLabel value="Nome: " for="nomeEatleta" />
+				<h:inputText id="nomeEatleta" value="#{eatletaBean.eatleta.nome}" />
+				<h:commandButton value="Salvar" actionListener="#{eatletaBean.salvar}" />
+			</h:panelGrid>
+		</fieldset>
+		
+	</h:form>
+</h:body>
 
 </html>
