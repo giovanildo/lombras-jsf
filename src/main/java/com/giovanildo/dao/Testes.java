@@ -1,4 +1,4 @@
-package com.giovanildo.jpa.service.ui;
+package com.giovanildo.dao;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -26,23 +26,21 @@ public class Clube {
 	 */
 	private String nacionalidade;
 
-	
-	public Clube() {
-		super();
-	}
-
-	
-	@Column(length=60,  nullable = false)
-	public String getNacionalidade() {
-		return nacionalidade;
-	}
+	/**
+	 * construtor jpa
+	 */
+	public Clube() {	}
 
 	public Clube(String nome, String nacionalidade) {
 		super();
 		this.nome = nome;
 		this.nacionalidade = nacionalidade;
 	}
-
+	
+	@Column(length=60,  nullable = false)
+	public String getNacionalidade() {
+		return nacionalidade;
+	}
 
 	public void setNacionalidade(String nacionalidade) {
 		this.nacionalidade = nacionalidade;
