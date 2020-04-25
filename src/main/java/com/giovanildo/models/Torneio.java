@@ -1,7 +1,7 @@
 package com.giovanildo.models;
 
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,7 +37,8 @@ public class Torneio {
 	/**
 	 * Pessoas que vão jogar no torneio
 	 */
-	private Collection<Competidor> competidores;
+	private List<Competidor> competidores;
+	
 
 	/**
 	 * 
@@ -75,7 +76,7 @@ public class Torneio {
 	 * @param nome
 	 * @param porqueDoNome
 	 */
-	public Torneio(String nome, String porqueDoNome, Collection<Competidor> competidores) {
+	public Torneio(String nome, String porqueDoNome, List<Competidor> competidores) {
 		super();
 		this.dataTorneio = new Date();
 		this.nome = nome;
@@ -129,13 +130,11 @@ public class Torneio {
 		return true;
 	}
 	@OneToMany(mappedBy = "torneio")
-	public Collection<Competidor> getCompetidores() {
-		
+	public List<Competidor> getCompetidores() {
 		return competidores;
-		
 	}
 
-	public void setCompetidores(Collection<Competidor> competidores) {
+	public void setCompetidores(List<Competidor> competidores) {
 		this.competidores = competidores;
 	}
 

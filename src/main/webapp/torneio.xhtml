@@ -2,16 +2,59 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html 
-xmlns="http://www.w3.org/1999/xhtml"
-xmlns:h ="http://xmlns.jcp.org/jsf/html"
-xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-xmlns:f ="http://xmlns.jcp.org/jsf/core"
-xmlns:p="http://primefaces.org/ui"
->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<h1>Cadastro de Torneio e Competidores</h1>
+	<h:form>
+		<fieldset>
+			<legend>Dados do Torneio</legend>
+			<h:panelGrid>
 
-<f:view>
-	<h:outputLabel>torneios</h:outputLabel>
-</f:view>
+				<h:outputLabel value="Data: " />
+				<h:outputLabel value="#{torneioBean.torneio.dataTorneio}" />
 
+				<h:outputLabel value="Nome: " for="nomeTorneio" />
+				<h:inputText value="#{torneioBean.torneio.nome}" id="nomeTorneio" />
+
+				<h:outputLabel value="Porque do nome: " for="porqueDoNome" />
+				<h:inputText value="#{torneioBean.torneio.porqueDoNome}"
+					id="porqueDoNome" />
+
+				<h:commandButton value="Salvar Torneio"
+					actionListener="#{torneioBean.salvarTorneio}" />
+
+			</h:panelGrid>
+		</fieldset>
+
+		<fieldset>
+			<legend>Clubes</legend>
+			<h:outputLabel value="Selecione o Clube: " for="clube" />
+			<h:selectOneMenu value="#{torneioBean.clubeId}" id="clube">
+				<f:selectItems value="#{torneioBean.clubes}" var="clube"
+					itemLabel="#{clube.nome}" itemValue="#{clube.id}" />
+			</h:selectOneMenu>
+		</fieldset>
+		<fieldset>
+			<legend>e-Atletas</legend>
+			<h:outputLabel value="Selecione o e-Atleta: " for="eatleta" />
+			<h:selectOneMenu value="#{torneioBean.eatletaId}" id="eatleta">
+				<f:selectItems value="#{torneioBean.eatletas}" var="eatleta"
+					itemLabel="#{eatleta.nome}" itemValue="#{eatleta.id}" />
+			</h:selectOneMenu>
+		</fieldset>
+
+		<h:dataTable value="#{torneioBean.competidores}" var="competidor">
+			<h:column>
+				<h:outputText value="#{competidor.clube}" />
+			</h:column>
+			<h:column>
+				<h:outputText value="#{competidor.eAtleta}" />
+			</h:column>
+		</h:dataTable>
+	</h:form>
+</h:body>
 </html>

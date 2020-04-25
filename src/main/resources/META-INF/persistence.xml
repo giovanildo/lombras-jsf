@@ -9,6 +9,8 @@
 		<class>com.giovanildo.models.EAtleta</class>
 		<class>com.giovanildo.models.Torneio</class>
 		<class>com.giovanildo.models.Competidor</class>
+		<class>com.giovanildo.models.CompetidorEmCampo</class>
+		<class>com.giovanildo.models.Partida</class>
 		<properties>
 			<!-- JPA -->
 			<property name="javax.persistence.jdbc.driver"
