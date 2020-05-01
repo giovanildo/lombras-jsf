@@ -10,16 +10,25 @@
 
 <h:body>
 	<h:form>
+		<h:messages />
 		<h1>Cadastro de e-Atletas</h1>
 		<fieldset>
 			<h:panelGrid>
 				<legend>Dados do e-Atleta</legend>
 				<h:outputLabel value="Nome: " for="nomeEatleta" />
-				<h:inputText id="nomeEatleta" value="#{eatletaBean.eatleta.nome}" />
-				<h:commandButton value="Salvar" actionListener="#{eatletaBean.salvar}" />
+				<h:inputText id="nomeEatleta" value="#{eatletaBean.eatleta.nome}"
+					validator="#{eatletaBean.validador}" />
+				<h:commandButton value="Salvar"
+					actionListener="#{eatletaBean.salvar}" />
 			</h:panelGrid>
 		</fieldset>
-		
+		<h:dataTable value="#{eatletaBean.eatletas}" var="eatleta">
+			<h:column>
+				<f:facet name="header">Nome</f:facet>
+				<h:outputText value="#{eatleta.nome}" />
+			</h:column>
+		</h:dataTable>
+
 	</h:form>
 </h:body>
 

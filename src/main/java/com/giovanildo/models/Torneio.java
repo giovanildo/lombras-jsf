@@ -1,8 +1,10 @@
 package com.giovanildo.models;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,13 +34,22 @@ public class Torneio {
 	 * Data em que o torneio foi jogado
 	 */
 
-	private Date dataTorneio;
+	private Calendar dataTorneio;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "data_torneio", nullable = false)
+	public Calendar getDataTorneio() {
+		return dataTorneio;
+	}
+
+	public void setDataTorneio(Calendar dataTorneio) {
+		this.dataTorneio = dataTorneio;
+	}
 
 	/**
 	 * Pessoas que vão jogar no torneio
 	 */
-	private List<Competidor> competidores;
-	
+	private List<Competidor> competidores = new ArrayList<Competidor>();
 
 	/**
 	 * 
@@ -47,7 +58,7 @@ public class Torneio {
 	@Id
 	@GeneratedValue
 	@Column(name = "torneio_id")
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -78,7 +89,7 @@ public class Torneio {
 	 */
 	public Torneio(String nome, String porqueDoNome, List<Competidor> competidores) {
 		super();
-		this.dataTorneio = new Date();
+		this.dataTorneio = Calendar.getInstance();
 		this.nome = nome;
 		this.porqueDoNome = porqueDoNome;
 		this.competidores = competidores;
@@ -86,12 +97,12 @@ public class Torneio {
 
 	public Torneio() {
 		super();
-		this.dataTorneio = new Date();
+		this.dataTorneio = Calendar.getInstance();
 	}
 
 	@Override
 	public String toString() {
-		
+
 		return nome + "  " + porqueDoNome;
 	}
 
@@ -120,7 +131,7 @@ public class Torneio {
 		if (getClass() != obj.getClass())
 			return false;
 		Torneio other = (Torneio) obj;
-		if (id != other.id) 
+		if (id != other.id)
 			return false;
 		if (nome == null) {
 			if (other.nome != null)
@@ -129,7 +140,8 @@ public class Torneio {
 			return false;
 		return true;
 	}
-	@OneToMany(mappedBy = "torneio")
+
+	@OneToMany(mappedBy = "torneio", cascade = CascadeType.ALL)
 	public List<Competidor> getCompetidores() {
 		return competidores;
 	}
@@ -138,13 +150,4 @@ public class Torneio {
 		this.competidores = competidores;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "data_torneio", nullable = false)
-	public Date getDataTorneio() {
-		return dataTorneio;
-	}
-
-	public void setDataTorneio(Date dataTorneio) {
-		this.dataTorneio = dataTorneio;
-	}
 }

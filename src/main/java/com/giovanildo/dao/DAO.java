@@ -13,7 +13,7 @@ public class DAO<T> {
 		this.classe = classe;
 	}
 
-	public void adiciona(T t) {
+	public T adiciona(T t) {
 
 		// consegue a entity manager
 		EntityManager em = new JPAUtil().getEntityManager();
@@ -29,6 +29,7 @@ public class DAO<T> {
 
 		// fecha a entity manager
 		em.close();
+		return t;
 	}
 
 	public void remove(T t) {
@@ -41,7 +42,7 @@ public class DAO<T> {
 		em.close();
 	}
 
-	public void atualiza(T t) {
+	public T atualiza(T t) {
 		EntityManager em = new JPAUtil().getEntityManager();
 		em.getTransaction().begin();
 
@@ -49,6 +50,7 @@ public class DAO<T> {
 
 		em.getTransaction().commit();
 		em.close();
+		return t;
 	}
 
 	public List<T> listaTodos() {
@@ -69,10 +71,10 @@ public class DAO<T> {
 		return instancia;
 	}
 
+
 	public int contaTodos() {
 		EntityManager em = new JPAUtil().getEntityManager();
-		long result = (Long) em.createQuery("select count(n) from livro n")
-				.getSingleResult();
+		long result = (Long) em.createQuery("select count(n) from livro n").getSingleResult();
 		em.close();
 
 		return (int) result;
@@ -83,8 +85,7 @@ public class DAO<T> {
 		CriteriaQuery<T> query = em.getCriteriaBuilder().createQuery(classe);
 		query.select(query.from(classe));
 
-		List<T> lista = em.createQuery(query).setFirstResult(firstResult)
-				.setMaxResults(maxResults).getResultList();
+		List<T> lista = em.createQuery(query).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
 
 		em.close();
 		return lista;

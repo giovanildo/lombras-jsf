@@ -10,15 +10,21 @@
 <h:body>
 	<h1>Cadastro de Torneio e Competidores</h1>
 	<h:form>
+		<h:messages />
 		<fieldset>
 			<legend>Dados do Torneio</legend>
 			<h:panelGrid>
-
-				<h:outputLabel value="Data: " />
-				<h:outputLabel value="#{torneioBean.torneio.dataTorneio}" />
+				<h:outputLabel value="Data: " for="dataTorneio" />
+				<h:outputText value="#{torneioBean.torneio.dataTorneio.time}"
+					id="dataTorneio">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
 
 				<h:outputLabel value="Nome: " for="nomeTorneio" />
-				<h:inputText value="#{torneioBean.torneio.nome}" id="nomeTorneio" />
+				<h:inputText value="#{torneioBean.torneio.nome}" id="nomeTorneio"
+					validator="#{torneioBean.validadorNome}">
+					<f:validateLength maximum="10" />
+				</h:inputText>
 
 				<h:outputLabel value="Porque do nome: " for="porqueDoNome" />
 				<h:inputText value="#{torneioBean.torneio.porqueDoNome}"
@@ -29,24 +35,24 @@
 
 			</h:panelGrid>
 		</fieldset>
-
 		<fieldset>
-			<legend>Clubes</legend>
+			<legend>Competidores</legend>
 			<h:outputLabel value="Selecione o Clube: " for="clube" />
 			<h:selectOneMenu value="#{torneioBean.clubeId}" id="clube">
 				<f:selectItems value="#{torneioBean.clubes}" var="clube"
 					itemLabel="#{clube.nome}" itemValue="#{clube.id}" />
 			</h:selectOneMenu>
-		</fieldset>
-		<fieldset>
 			<legend>e-Atletas</legend>
 			<h:outputLabel value="Selecione o e-Atleta: " for="eatleta" />
 			<h:selectOneMenu value="#{torneioBean.eatletaId}" id="eatleta">
 				<f:selectItems value="#{torneioBean.eatletas}" var="eatleta"
 					itemLabel="#{eatleta.nome}" itemValue="#{eatleta.id}" />
 			</h:selectOneMenu>
-		</fieldset>
 
+
+		</fieldset>
+		<h:commandButton value="Incluir Competidor"
+			actionListener="#{torneioBean.incluirCompetidor}" />
 		<h:dataTable value="#{torneioBean.competidores}" var="competidor">
 			<h:column>
 				<h:outputText value="#{competidor.clube}" />
@@ -55,6 +61,27 @@
 				<h:outputText value="#{competidor.eAtleta}" />
 			</h:column>
 		</h:dataTable>
+		<h1>Torneios</h1>
+		<h:dataTable value="#{torneioBean.torneios}" var="torneio">
+			<h:column>
+				<f:facet name="header">Data</f:facet>
+				<h:outputText value="#{torneio.dataTorneio.time}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Nome</f:facet>
+				<h:outputText value="#{torneio.nome}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Porque desse nome fuleragi</f:facet>
+				<h:outputText value="#{torneio.porqueDoNome}" />
+			</h:column>
+		</h:dataTable>
 	</h:form>
+	
+	<h:dataTable >
+	
+	</h:dataTable>
 </h:body>
 </html>
