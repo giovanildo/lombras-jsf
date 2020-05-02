@@ -1,52 +1,73 @@
 package com.giovanildo.models;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "tab_competidor_em_campo")
 public class CompetidorEmCampo {
-	
+
 	private int id;
 	private Competidor competidor;
 	private Partida partida;
 	private int gols;
 	private boolean jogaEmCasa;
-	
+
 	@Id
 	@GeneratedValue
 	@Column(name = "competidor_em_campo_id")
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	@OneToOne
 	@JoinColumn(name = "competidor_id")
 	public Competidor getCompetidor() {
 		return competidor;
 	}
+
 	public void setCompetidor(Competidor competidor) {
 		this.competidor = competidor;
 	}
+
 	public int getGols() {
 		return gols;
 	}
+
 	public void setGols(int gols) {
 		this.gols = gols;
 	}
-	
+
 	public CompetidorEmCampo() {
-		super();	
+		super();
+		this.gols = 0;
 	}
-	
-	public CompetidorEmCampo(Partida partida, Competidor competidor,  int gols, boolean jogaEmCasa) {
+
+	public CompetidorEmCampo(Partida partida, Competidor competidor, boolean jogaEmCasa) {
 		super();
 		this.competidor = competidor;
 		this.partida = partida;
-		this.gols = gols;
+		this.gols = 0;
 		this.jogaEmCasa = jogaEmCasa;
 	}
+	
+	public CompetidorEmCampo(Partida partida, Competidor competidor) {
+		super();
+		this.competidor = competidor;
+		this.partida = partida;
+		this.gols = 0;
+	}
+
 //	@Override
 //	public String toString() {
 //		return "CompetidorEmCampo [competidor=" + competidor + ", gols=" + gols + "]";
@@ -59,11 +80,13 @@ public class CompetidorEmCampo {
 		result = prime * result + gols;
 		return result;
 	}
+
 	@Override
 	public String toString() {
 		return "CompetidorEmCampo [competidor=" + competidor + ", partida=" + partida + ", gols=" + gols
 				+ ", jogaEmCasa=" + jogaEmCasa + "]";
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -88,15 +111,17 @@ public class CompetidorEmCampo {
 	public Partida getPartida() {
 		return partida;
 	}
+
 	public void setPartida(Partida partida) {
 		this.partida = partida;
 	}
+
 	public boolean isJogaEmCasa() {
 		return jogaEmCasa;
 	}
+
 	public void setJogaEmCasa(boolean jogaEmCasa) {
 		this.jogaEmCasa = jogaEmCasa;
 	}
-	
-	
+
 }

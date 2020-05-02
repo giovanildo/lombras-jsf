@@ -2,6 +2,7 @@ package com.giovanildo.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -47,100 +48,126 @@ public class TorneioBean implements Serializable {
 	}
 
 	public void incluirCompetidor() {
-
-		Clube clube = new DAO<Clube>(Clube.class).buscaPorId(clubeId);
-		EAtleta eatleta = new DAO<EAtleta>(EAtleta.class).buscaPorId(eatletaId);
 		Competidor competidor = new Competidor();
-
-		competidor.setClube(clube);
-		competidor.seteAtleta(eatleta);
+		competidor.setClube(new DAO<Clube>(Clube.class).buscaPorId(clubeId));
+		competidor.seteAtleta(new DAO<EAtleta>(EAtleta.class).buscaPorId(eatletaId));
 		competidor.setTorneio(this.torneio);
 
 		this.getCompetidores().add(competidor);
 	}
 
 	public List<Partida> getPartidas() {
+		if (this.getCompetidores().size() < 2) {
+			return null;
+		}
 		return geraPartidas(this.getCompetidores());
+	}
+
+	public List<Partida> geraPartidas(List<Competidor> listaCompetidores) {
+		List<Partida> lista = new ArrayList<Partida>();
+		List<Competidor> competidores = new ArrayList<Competidor>(listaCompetidores);
+
+		if (competidores.size() % 2 == 1) {
+			competidores.add(0, null);
+		}
+
+		int t = competidores.size();
+		int m = competidores.size() / 2;
+		for (int i = 0; i < t - 1; i++) {
+			System.out.print((i + 1) + "a rodada: ");
+			for (int j = 0; j < m; j++) {
+				// Clube está de fora nessa rodada?
+				if (competidores.get(j) == null) {
+					continue;
+				}
+				// Teste para ajustar o mando de campo
+				if (j % 2 == 1 || i % 2 == 1 && j == 0) {
+					Partida partida = null;
+					Competidor c1 = competidores.get(t - j - 1);
+					Competidor c2 = competidores.get(j);
+					CompetidorEmCampo anfitriao = new CompetidorEmCampo(partida, c1, true);
+					CompetidorEmCampo visitante = new CompetidorEmCampo(partida, c2, false);
+					partida = new Partida(Arrays.asList(anfitriao, visitante));
+					lista.add(partida);
+				} else {
+					Partida partida = null;
+					Competidor c1 = competidores.get(t - j - 1);
+					Competidor c2 = competidores.get(j);
+					CompetidorEmCampo anfitriao = new CompetidorEmCampo(partida, c2, true);
+					CompetidorEmCampo visitante = new CompetidorEmCampo(partida, c1, false);
+					partida = new Partida(Arrays.asList(visitante, anfitriao));
+					lista.add(partida);
+				}
+			}
+			// Gira os clubes no sentido horário, mantendo o primeiro no lugar
+			competidores.add(1, competidores.remove(competidores.size() - 1));
+		}
+
+		return lista;
 	}
 
 	/**
 	 * gera array de partidas
 	 */
-	public List<Partida> geraPartidas(List<Competidor> competidores) {
-
-		List<Partida> listaPartidas = new ArrayList<Partida>();
-
-		// em caso de partidas clubes impares
-		if (competidores.size() % 2 == 1) {
-			competidores.add(0, null);
-		}
-
-		// variaveis que serao base para gerar partidas
-		int totalClubes = competidores.size();
-		int metadeClubes = totalClubes / 2;
-		Partida partida = null;
-		List<CompetidorEmCampo> competidoresEmCampo = null;
-		for (int turno = 0; turno <= 1; turno++) {
-			for (int t = 0; t < (totalClubes - 1); t++) {// for das rodadas
-				for (int m = 0; m < metadeClubes; m++) {// for dos jogos
-					// Clube está de fora nessa rodada?
-					if (competidores.get(m) == null) {
-						continue;
-					}
-					// Teste para ajustar o mando de campo
-					if (m % 2 == 1 || t % 2 == 1 && m == 0) {
-						if (turno == 0) {
-							partida = new Partida();
-							competidoresEmCampo = new ArrayList<CompetidorEmCampo>();
-							// guardando o anfitrião
-							competidoresEmCampo.add(
-									new CompetidorEmCampo(partida, competidores.get(totalClubes - m - 1), 0, true));
-							// guardando o visitante
-							competidoresEmCampo.add(new CompetidorEmCampo(partida, competidores.get(m), 0, false));
-						} else {
-							partida = new Partida();
-							competidoresEmCampo = new ArrayList<CompetidorEmCampo>();
-							// guardando o anfitrião
-							competidoresEmCampo.add(new CompetidorEmCampo(partida, competidores.get(m), 0, true));
-							// guardando o visitante
-							competidoresEmCampo.add(
-									new CompetidorEmCampo(partida, competidores.get(totalClubes - m - 1), 0, false));
-						}
-					} else {
-
-						if (turno == 1) {
-							partida = new Partida();
-							competidoresEmCampo = new ArrayList<CompetidorEmCampo>();
-							// guardando o anfitrião
-							competidoresEmCampo.add(new CompetidorEmCampo(partida, competidores.get(m), 0, true));
-							// guardando o visitante
-							competidoresEmCampo.add(
-									new CompetidorEmCampo(partida, competidores.get(totalClubes - m - 1), 0, false));
-						} else {
-							partida = new Partida();
-							competidoresEmCampo = new ArrayList<CompetidorEmCampo>();
-							// guardando o anfitrião
-							competidoresEmCampo.add(
-									new CompetidorEmCampo(partida, competidores.get(totalClubes - m - 1), 0, true));
-							// guardando o visitante
-							competidoresEmCampo.add(new CompetidorEmCampo(partida, competidores.get(m), 0, false));
-						}
-					}
-				}
-
-				partida.setCompetidoresEmCampo(competidoresEmCampo);
-				// inserindo na lista
-
-				listaPartidas.add(partida);
-
-				// Gira os clubes no sentido horário, mantendo o primeiro no lugar
-				Competidor remove = competidores.remove(competidores.size() - 1);
-				competidores.add(1, remove);
-			}
-		}
-
-		return listaPartidas;
-	}
+//	public List<Partida> geraPartidas(List<Competidor> competidores) {
+//
+//		List<Partida> lista = new ArrayList<Partida>();
+//
+//		// em caso de partidas clubes impares
+//		if (competidores.size() % 2 == 1) {
+//			competidores.add(0, null);
+//		}
+//
+//		// variaveis que serao base para gerar partidas
+//		int totalClubes = competidores.size();
+//		int metadeClubes = totalClubes / 2;
+//		Partida partida = null;
+//		for (int turno = 0; turno <= 1; turno++) {
+//			for (int t = 0; t < (totalClubes - 1); t++) {// for das rodadas
+//				for (int m = 0; m < metadeClubes; m++) {// for dos jogos
+//					// Clube está de fora nessa rodada?
+//					if (competidores.get(m) == null) {
+//						continue;
+//					}
+//					// Teste para ajustar o mando de campo
+//					if (m % 2 == 1 || t % 2 == 1 && m == 0) {
+//						if (turno == 0) {
+//							int s = totalClubes - m - 1;
+//							CompetidorEmCampo anfitriao = new CompetidorEmCampo(partida, competidores.get(s));
+//							CompetidorEmCampo visitante = new CompetidorEmCampo(partida, competidores.get(m));
+//							partida = new Partida(anfitriao, visitante);
+//						} else {
+//							int s = totalClubes - m - 1;
+//							CompetidorEmCampo anfitriao = new CompetidorEmCampo(partida, competidores.get(m));
+//							CompetidorEmCampo visitante = new CompetidorEmCampo(partida, competidores.get(s));
+//							partida = new Partida(anfitriao, visitante);
+//						}
+//					} else {
+//						if (turno == 1) {
+//							int s = totalClubes - m - 1;
+//							CompetidorEmCampo anfitriao = new CompetidorEmCampo(partida, competidores.get(m));
+//							CompetidorEmCampo visitante = new CompetidorEmCampo(partida, competidores.get(s));
+//							partida = new Partida(anfitriao, visitante);
+//						} else {
+//							int s = totalClubes - m - 1;
+//							CompetidorEmCampo anfitriao = new CompetidorEmCampo(partida, competidores.get(s));
+//							CompetidorEmCampo visitante = new CompetidorEmCampo(partida, competidores.get(m));
+//							partida = new Partida(anfitriao, visitante);
+//						}
+//					}
+//				}
+//
+//				// inserindo na lista
+//				lista.add(partida);
+//
+//				// Gira os clubes no sentido horário, mantendo o primeiro no lugar
+//				Competidor remove = competidores.remove(competidores.size() - 1);
+//				competidores.add(1, remove);
+//			}
+//		}
+//		return lista;
+//
+//	}
 
 	public void validadorNome(FacesContext fc, UIComponent component, Object value) throws ValidatorException {
 		String nome = value.toString();

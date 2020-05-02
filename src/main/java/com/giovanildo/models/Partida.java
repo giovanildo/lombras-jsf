@@ -1,5 +1,6 @@
 package com.giovanildo.models;
 
+
 import java.util.List;
 
 import javax.persistence.Column;
@@ -68,6 +69,20 @@ public class Partida {
 		super();
 		this.encerrada = false;
 	}
+
+//	public Partida(CompetidorEmCampo anfitriao, CompetidorEmCampo visitante) {
+//		super();
+//		anfitriao.setJogaEmCasa(true);
+//		visitante.setJogaEmCasa(false);
+//
+//		this.competidoresEmCampo = new ArrayList<CompetidorEmCampo>();
+//		
+//		this.competidoresEmCampo.add(0, anfitriao);
+//		this.competidoresEmCampo.add(1, visitante);		
+//		
+//		this.encerrada = false;
+//	}
+	
 
 	public Partida(List<CompetidorEmCampo> competidoresEmCampo) {
 		super();

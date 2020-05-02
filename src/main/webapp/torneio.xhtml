@@ -79,9 +79,16 @@
 			</h:column>
 		</h:dataTable>
 	</h:form>
-	
-	<h:dataTable >
-	
+
+	<h:dataTable value="#{torneioBean.partidas}" var="partida">
+		<h:column>
+			<h:dataTable value="#{partida.competidoresEmCampo}" var="emCampo">
+				<h:column>
+					<h:outputText value="#{emCampo.competidor.eAtleta}" />
+				</h:column>
+			</h:dataTable>
+			<h:outputText value="#{partida.encerrada}" />
+		</h:column>
 	</h:dataTable>
 </h:body>
 </html>
