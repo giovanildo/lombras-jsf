@@ -32,11 +32,13 @@ public class TorneioBean implements Serializable {
 
 	private Integer eatletaId;
 
+	/**
+	 * persiste um novo torneio
+	 */
 	public void salvarTorneio() {
 		System.out.println("Torneio :" + torneio.getNome() + " " + torneio.getPorqueDoNome());
 
 		if (getCompetidores().size() < 2) {
-			// throw new RuntimeException("Um torneio de pelo menos dois competidores");
 			FacesContext.getCurrentInstance().addMessage("competidor",
 					new FacesMessage("tem que ter pelo menos dois competidores"));
 			return;
@@ -47,6 +49,10 @@ public class TorneioBean implements Serializable {
 		torneio = new Torneio();
 	}
 
+	/**
+	 * adiciona um novo competidor no torneio
+	 * 
+	 */
 	public void incluirCompetidor() {
 		Competidor competidor = new Competidor();
 		competidor.setClube(new DAO<Clube>(Clube.class).buscaPorId(clubeId));
@@ -56,6 +62,10 @@ public class TorneioBean implements Serializable {
 		this.getCompetidores().add(competidor);
 	}
 
+	/**
+	 * 
+	 * @return chama o gerarPartidas
+	 */
 	public List<Partida> getPartidas() {
 		if (this.getCompetidores().size() < 2) {
 			return null;
@@ -63,112 +73,101 @@ public class TorneioBean implements Serializable {
 		return geraPartidas(this.getCompetidores());
 	}
 
-	public List<Partida> geraPartidas(List<Competidor> listaCompetidores) {
-		List<Partida> lista = new ArrayList<Partida>();
-		List<Competidor> competidores = new ArrayList<Competidor>(listaCompetidores);
-
-		if (competidores.size() % 2 == 1) {
-			competidores.add(0, null);
+	public void salvaPartidas() {
+		System.out.println("salvando partidas");
+		for (Partida partida : geraPartidas(getCompetidores())) {
+			partida.setCompetidoresEmCampo(Arrays.asList(partida.getAnfitriao(), partida.getVisitante()));
+			new DAO<Partida>(Partida.class).adiciona(partida);
 		}
-
-		int t = competidores.size();
-		int m = competidores.size() / 2;
-		for (int i = 0; i < t - 1; i++) {
-			System.out.print((i + 1) + "a rodada: ");
-			for (int j = 0; j < m; j++) {
-				// Clube está de fora nessa rodada?
-				if (competidores.get(j) == null) {
-					continue;
-				}
-				// Teste para ajustar o mando de campo
-				if (j % 2 == 1 || i % 2 == 1 && j == 0) {
-					Partida partida = null;
-					Competidor c1 = competidores.get(t - j - 1);
-					Competidor c2 = competidores.get(j);
-					CompetidorEmCampo anfitriao = new CompetidorEmCampo(partida, c1, true);
-					CompetidorEmCampo visitante = new CompetidorEmCampo(partida, c2, false);
-					partida = new Partida(Arrays.asList(anfitriao, visitante));
-					lista.add(partida);
-				} else {
-					Partida partida = null;
-					Competidor c1 = competidores.get(t - j - 1);
-					Competidor c2 = competidores.get(j);
-					CompetidorEmCampo anfitriao = new CompetidorEmCampo(partida, c2, true);
-					CompetidorEmCampo visitante = new CompetidorEmCampo(partida, c1, false);
-					partida = new Partida(Arrays.asList(visitante, anfitriao));
-					lista.add(partida);
-				}
-			}
-			// Gira os clubes no sentido horário, mantendo o primeiro no lugar
-			competidores.add(1, competidores.remove(competidores.size() - 1));
-		}
-
-		return lista;
+		FacesContext.getCurrentInstance().addMessage("partida", new FacesMessage("deu certo, gerar as partidas! ;)"));
 	}
 
 	/**
-	 * gera array de partidas
+	 * gera lista de partidas com turno e returno
+	 * 
+	 * @param listaCompetidores
+	 * @return
 	 */
-//	public List<Partida> geraPartidas(List<Competidor> competidores) {
-//
-//		List<Partida> lista = new ArrayList<Partida>();
-//
-//		// em caso de partidas clubes impares
-//		if (competidores.size() % 2 == 1) {
-//			competidores.add(0, null);
-//		}
-//
-//		// variaveis que serao base para gerar partidas
-//		int totalClubes = competidores.size();
-//		int metadeClubes = totalClubes / 2;
-//		Partida partida = null;
-//		for (int turno = 0; turno <= 1; turno++) {
-//			for (int t = 0; t < (totalClubes - 1); t++) {// for das rodadas
-//				for (int m = 0; m < metadeClubes; m++) {// for dos jogos
-//					// Clube está de fora nessa rodada?
-//					if (competidores.get(m) == null) {
-//						continue;
-//					}
-//					// Teste para ajustar o mando de campo
-//					if (m % 2 == 1 || t % 2 == 1 && m == 0) {
-//						if (turno == 0) {
-//							int s = totalClubes - m - 1;
-//							CompetidorEmCampo anfitriao = new CompetidorEmCampo(partida, competidores.get(s));
-//							CompetidorEmCampo visitante = new CompetidorEmCampo(partida, competidores.get(m));
-//							partida = new Partida(anfitriao, visitante);
-//						} else {
-//							int s = totalClubes - m - 1;
-//							CompetidorEmCampo anfitriao = new CompetidorEmCampo(partida, competidores.get(m));
-//							CompetidorEmCampo visitante = new CompetidorEmCampo(partida, competidores.get(s));
-//							partida = new Partida(anfitriao, visitante);
-//						}
-//					} else {
-//						if (turno == 1) {
-//							int s = totalClubes - m - 1;
-//							CompetidorEmCampo anfitriao = new CompetidorEmCampo(partida, competidores.get(m));
-//							CompetidorEmCampo visitante = new CompetidorEmCampo(partida, competidores.get(s));
-//							partida = new Partida(anfitriao, visitante);
-//						} else {
-//							int s = totalClubes - m - 1;
-//							CompetidorEmCampo anfitriao = new CompetidorEmCampo(partida, competidores.get(s));
-//							CompetidorEmCampo visitante = new CompetidorEmCampo(partida, competidores.get(m));
-//							partida = new Partida(anfitriao, visitante);
-//						}
-//					}
-//				}
-//
-//				// inserindo na lista
-//				lista.add(partida);
-//
-//				// Gira os clubes no sentido horário, mantendo o primeiro no lugar
-//				Competidor remove = competidores.remove(competidores.size() - 1);
-//				competidores.add(1, remove);
-//			}
-//		}
-//		return lista;
-//
-//	}
+	public List<Partida> geraPartidas(List<Competidor> listaCompetidores) {
+		List<Partida> partidas = new ArrayList<Partida>();
+		List<Competidor> competidores = new ArrayList<Competidor>(listaCompetidores);
 
+		boolean verificaSeQtdCompetidoresImpar = competidores.size() % 2 == 1;
+		if (verificaSeQtdCompetidoresImpar) {
+			competidores.add(0, null);
+		}
+
+		for (int rodada = 0; rodada < competidores.size() - 1; rodada++) {
+			System.out.print((rodada + 1) + "a rodada: ");
+			for (int jogo = 0; jogo < (competidores.size() / 2); jogo++) {
+				boolean foraDaRodada = competidores.get(jogo) == null;
+				if (foraDaRodada) {
+					continue;
+				}
+				partidas.add(colocaPartida(competidores, jogo, mandoDeCampo(jogo, rodada)));
+			}
+			// Gira os clubes no sentido horário, mantendo o primeiro no lugar
+			Competidor competidorRemovido = competidores.remove(competidores.size() - 1);
+			competidores.add(1, competidorRemovido);
+		}
+
+		geraReturno(partidas);
+
+		return partidas;
+	}
+
+	/**
+	 * inverte o mando de campo das partidas, gerando assim o returno.
+	 * 
+	 * @param partidas
+	 */
+	private void geraReturno(List<Partida> partidas) {
+		List<Partida> partidasTurno = new ArrayList<Partida>(partidas);
+		for (Partida partidaTurno : partidasTurno) {
+			partidaTurno.inverterMandoDeCampo();
+			Partida partidaReturno = new Partida(partidaTurno.getCompetidoresEmCampo());
+			partidas.add(partidaReturno);
+		}
+	}
+
+	/**
+	 * Teste para ajustar o mando de campo
+	 * 
+	 * @param jogo
+	 * @param rodada rodadas
+	 * @return
+	 */
+	private boolean mandoDeCampo(int jogo, int rodada) {
+		return (jogo % 2 == 1 || rodada % 2 == 1 && jogo == 0);
+	}
+
+	/**
+	 * 
+	 * 
+	 * @param competidores
+	 * @param jogo
+	 * @param mandoDeCampo
+	 * @return Retorna uma partida baseada no mando de campo
+	 */
+	private Partida colocaPartida(List<Competidor> competidores, int jogo, boolean mandoDeCampo) {
+		Partida partida = null;
+		Competidor c1 = competidores.get(competidores.size() - jogo - 1);
+		Competidor c2 = competidores.get(jogo);
+		CompetidorEmCampo anfitriao = new CompetidorEmCampo(partida, c1, mandoDeCampo);
+		CompetidorEmCampo visitante = new CompetidorEmCampo(partida, c2, !mandoDeCampo);
+		partida = new Partida(Arrays.asList(anfitriao, visitante));
+		return partida;
+	}
+
+	/**
+	 * valida o nome do torneio, impedindo criação de torneio sem e torneio com nome
+	 * repetido
+	 * 
+	 * @param fc
+	 * @param component
+	 * @param value
+	 * @throws ValidatorException
+	 */
 	public void validadorNome(FacesContext fc, UIComponent component, Object value) throws ValidatorException {
 		String nome = value.toString();
 
@@ -184,10 +183,18 @@ public class TorneioBean implements Serializable {
 		}
 	}
 
+	/**
+	 * 
+	 * @return lista dos competidores do torneio
+	 */
 	public List<Competidor> getCompetidores() {
 		return this.torneio.getCompetidores();
 	}
 
+	/**
+	 * 
+	 * @return retorna uma lista dos torneios já registrados
+	 */
 	public List<Torneio> getTorneios() {
 		return new DAO<Torneio>(Torneio.class).listaTodos();
 	}

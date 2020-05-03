@@ -12,7 +12,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tab_competidor_em_campo")
 public class CompetidorEmCampo {
-
 	private int id;
 	private Competidor competidor;
 	private Partida partida;
@@ -60,7 +59,7 @@ public class CompetidorEmCampo {
 		this.gols = 0;
 		this.jogaEmCasa = jogaEmCasa;
 	}
-	
+
 	public CompetidorEmCampo(Partida partida, Competidor competidor) {
 		super();
 		this.competidor = competidor;
@@ -123,5 +122,4 @@ public class CompetidorEmCampo {
 	public void setJogaEmCasa(boolean jogaEmCasa) {
 		this.jogaEmCasa = jogaEmCasa;
 	}
-
 }

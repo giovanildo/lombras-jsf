@@ -7,10 +7,12 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
+
+<h:head />
 <h:body>
 	<h1>Cadastro de Torneio e Competidores</h1>
-	<h:form>
-		<h:messages />
+	<h:form id="form">
+		<h:messages id="mensagens" />
 		<fieldset>
 			<legend>Dados do Torneio</legend>
 			<h:panelGrid>
@@ -19,20 +21,20 @@
 					id="dataTorneio">
 					<f:convertDateTime pattern="dd/MM/yyyy" />
 				</h:outputText>
-
 				<h:outputLabel value="Nome: " for="nomeTorneio" />
 				<h:inputText value="#{torneioBean.torneio.nome}" id="nomeTorneio"
 					validator="#{torneioBean.validadorNome}">
-					<f:validateLength maximum="10" />
+					<f:validateLength maximum="30" />
+					<f:ajax event="blur" render="mensagens" />
 				</h:inputText>
-
 				<h:outputLabel value="Porque do nome: " for="porqueDoNome" />
 				<h:inputText value="#{torneioBean.torneio.porqueDoNome}"
 					id="porqueDoNome" />
 
 				<h:commandButton value="Salvar Torneio"
-					actionListener="#{torneioBean.salvarTorneio}" />
-
+					actionListener="#{torneioBean.salvarTorneio}">
+					<f:ajax execute="dataTorneio nomeTorneio porqueDoNome" render="@form torneiosDT" />
+				</h:commandButton>
 			</h:panelGrid>
 		</fieldset>
 		<fieldset>
@@ -48,12 +50,13 @@
 				<f:selectItems value="#{torneioBean.eatletas}" var="eatleta"
 					itemLabel="#{eatleta.nome}" itemValue="#{eatleta.id}" />
 			</h:selectOneMenu>
-
-
 		</fieldset>
 		<h:commandButton value="Incluir Competidor"
-			actionListener="#{torneioBean.incluirCompetidor}" />
-		<h:dataTable value="#{torneioBean.competidores}" var="competidor">
+			actionListener="#{torneioBean.incluirCompetidor}">
+			<f:ajax execute="clube eatleta" render="competidoresDT" />
+		</h:commandButton>
+		<h:dataTable value="#{torneioBean.competidores}" var="competidor"
+			id="competidoresDT">
 			<h:column>
 				<h:outputText value="#{competidor.clube}" />
 			</h:column>
@@ -62,7 +65,7 @@
 			</h:column>
 		</h:dataTable>
 		<h1>Torneios</h1>
-		<h:dataTable value="#{torneioBean.torneios}" var="torneio">
+		<h:dataTable value="#{torneioBean.torneios}" var="torneio" id="torneiosDT">
 			<h:column>
 				<f:facet name="header">Data</f:facet>
 				<h:outputText value="#{torneio.dataTorneio.time}">
@@ -78,15 +81,30 @@
 				<h:outputText value="#{torneio.porqueDoNome}" />
 			</h:column>
 		</h:dataTable>
+		<h:commandButton value="Salvar Partidas"
+			actionListener="#{torneioBean.salvaPartidas}" />
 	</h:form>
-
+	<h1>Partidas Geradas previamente</h1>
 	<h:dataTable value="#{torneioBean.partidas}" var="partida">
 		<h:column>
-			<h:dataTable value="#{partida.competidoresEmCampo}" var="emCampo">
-				<h:column>
-					<h:outputText value="#{emCampo.competidor.eAtleta}" />
-				</h:column>
-			</h:dataTable>
+			<f:facet name="header">Anfitrião</f:facet>
+			<h:outputText value="#{partida.anfitriao.competidor.eAtleta}" />
+		</h:column>
+		<h:column>
+			<h:outputText value="#{partida.anfitriao.gols}" />
+		</h:column>
+		<h:column>
+			<h:outputText value=" X " />
+		</h:column>
+		<h:column>
+			<h:outputText value="#{partida.visitante.gols}" />
+		</h:column>
+		<h:column>
+			<f:facet name="header">Visitante</f:facet>
+			<h:outputText value="#{partida.visitante.competidor.eAtleta}" />
+		</h:column>
+		<h:column>
+			<f:facet name="header">Encerrada?</f:facet>
 			<h:outputText value="#{partida.encerrada}" />
 		</h:column>
 	</h:dataTable>
