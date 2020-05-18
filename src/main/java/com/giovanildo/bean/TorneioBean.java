@@ -33,6 +33,31 @@ public class TorneioBean implements Serializable {
 	private Integer eatletaId;
 
 	/**
+	 * 
+	 * @return o formulário de cadastro de eatletas
+	 */
+	public String formTorneio() {
+		return "torneio?faces-redirect=true";
+	}
+
+	/**
+	 * 
+	 * @return o formulário de cadastro de eatletas
+	 */
+	public String formEatleta() {
+		return "eatleta?faces-redirect=true";
+	}
+
+	/**
+	 * 
+	 * @return o formulário de cadastro de clubes
+	 */
+	public String formClube() {
+		System.out.println("chamando a página de cadastro de clubes");
+		return "clube.xhtml?faces-redirect=true";
+	}
+
+	/**
 	 * persiste um novo torneio
 	 */
 	public void salvarTorneio() {

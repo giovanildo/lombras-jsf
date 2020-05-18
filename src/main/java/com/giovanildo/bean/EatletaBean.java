@@ -28,7 +28,7 @@ public class EatletaBean implements Serializable {
 					new FacesMessage("O nome do EAtleta não pode ser em branco"));
 			return;
 		}
-		
+
 		new DAO<EAtleta>(EAtleta.class).adiciona(this.eatleta);
 		eatleta = new EAtleta();
 	}

@@ -27,6 +27,7 @@ public class Liga {
 			}
 		} while (!clube.isEmpty());
 
+		in.close();
 		if (clubes.size() % 2 == 1) {
 			clubes.add(0, "");
 		}
@@ -50,6 +51,7 @@ public class Liga {
 			// Gira os clubes no sentido horário, mantendo o primeiro no lugar
 			clubes.add(1, clubes.remove(clubes.size() - 1));
 		}
+		
 	}
 
 	public static void liga() {

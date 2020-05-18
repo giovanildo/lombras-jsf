@@ -11,6 +11,7 @@
 <h:head />
 <h:body>
 	<h1>Cadastro de Torneio e Competidores</h1>
+
 	<h:form id="form">
 		<h:messages id="mensagens" />
 		<fieldset>
@@ -25,7 +26,7 @@
 				<h:inputText value="#{torneioBean.torneio.nome}" id="nomeTorneio"
 					validator="#{torneioBean.validadorNome}">
 					<f:validateLength maximum="30" />
-					<f:ajax event="blur" render="mensagens" />
+					<f:ajax event="keyup" render="mensagens" />
 				</h:inputText>
 				<h:outputLabel value="Porque do nome: " for="porqueDoNome" />
 				<h:inputText value="#{torneioBean.torneio.porqueDoNome}"
@@ -33,7 +34,8 @@
 
 				<h:commandButton value="Salvar Torneio"
 					actionListener="#{torneioBean.salvarTorneio}">
-					<f:ajax execute="dataTorneio nomeTorneio porqueDoNome" render="@form torneiosDT" />
+					<f:ajax execute="dataTorneio nomeTorneio porqueDoNome"
+						render="@form torneiosDT" />
 				</h:commandButton>
 			</h:panelGrid>
 		</fieldset>
@@ -55,6 +57,13 @@
 			actionListener="#{torneioBean.incluirCompetidor}">
 			<f:ajax execute="clube eatleta" render="competidoresDT" />
 		</h:commandButton>
+
+		<h:commandLink value="Cadastro de Clubes"
+			action="#{torneioBean.formClube}" immediate="true" />
+
+		<h:commandLink value="Cadastro de eatletas"
+			action="#{torneioBean.formEatleta}" immediate="true" />
+
 		<h:dataTable value="#{torneioBean.competidores}" var="competidor"
 			id="competidoresDT">
 			<h:column>
@@ -65,7 +74,8 @@
 			</h:column>
 		</h:dataTable>
 		<h1>Torneios</h1>
-		<h:dataTable value="#{torneioBean.torneios}" var="torneio" id="torneiosDT">
+		<h:dataTable value="#{torneioBean.torneios}" var="torneio"
+			id="torneiosDT">
 			<h:column>
 				<f:facet name="header">Data</f:facet>
 				<h:outputText value="#{torneio.dataTorneio.time}">
