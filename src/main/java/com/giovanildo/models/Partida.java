@@ -2,8 +2,10 @@ package com.giovanildo.models;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -55,9 +57,11 @@ public class Partida {
 		geraAnfitriaoVisitante(competidoresEmCampo);
 		this.encerrada = false;
 	}
+
 	/**
 	 * define atributo visitante e anfitriao, baseado na lista de competidores
 	 * atributo visitante e anfitriao não são mapeados no jpa
+	 * 
 	 * @param competidoresEmCampo
 	 */
 	private void geraAnfitriaoVisitante(List<CompetidorEmCampo> competidoresEmCampo) {
@@ -120,7 +124,7 @@ public class Partida {
 
 	public void inverterMandoDeCampo() {
 		for (CompetidorEmCampo daVez : competidoresEmCampo) {
-			daVez.setJogaEmCasa(!daVez.isJogaEmCasa());			
+			daVez.setJogaEmCasa(!daVez.isJogaEmCasa());
 		}
 	}
 
@@ -128,7 +132,8 @@ public class Partida {
 		this.visitante = visitante;
 	}
 
-	@OneToMany(mappedBy = "partida")
+	@OneToMany(cascade = {
+			CascadeType.ALL }, targetEntity = CompetidorEmCampo.class, fetch = FetchType.EAGER, mappedBy = "partida", orphanRemoval = true) // https://www.guj.com.br/t/resolvido-remocao-dos-objetos-no-merge-jpa/78937/6
 	public List<CompetidorEmCampo> getCompetidoresEmCampo() {
 		return competidoresEmCampo;
 	}

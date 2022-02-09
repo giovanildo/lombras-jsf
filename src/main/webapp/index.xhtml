@@ -2,20 +2,34 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html 
-xmlns="http://www.w3.org/1999/xhtml"
-xmlns:h ="http://xmlns.jcp.org/jsf/html"
-xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-xmlns:f ="http://xmlns.jcp.org/jsf/core"
-xmlns:p="http://primefaces.org/ui"
->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<link
+		href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css"
+		rel="stylesheet" />
+	<link
+		href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"
+		rel="stylesheet" />
+</h:head>
 <h:body>
-	
 	<h:form>
-		<h:outputLabel />
+		<h:outputLabel value="Gerenciador de Torneios de Futebol De Video Game " styleClass = ""/>
+		<ul>
+			<li><h:commandLink value="Cadastro de Clubes"
+					action="#{torneioBean.formClube}" immediate="true"
+					styleClass="btn btn-default" /></li>
+			<li><h:commandLink value="Cadastro de eatletas"
+					action="#{torneioBean.formEatleta}" immediate="true"
+					styleClass="btn btn-default" /></li>
+			<li><h:commandLink value="Torneios"
+					action="#{torneioBean.formTorneio}" immediate="true"
+					styleClass="btn btn-default" /></li>
+		</ul>
 	</h:form>
-	
 </h:body>
-
 
 </html>

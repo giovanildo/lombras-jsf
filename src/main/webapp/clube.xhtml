@@ -7,11 +7,20 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<link
+		href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css"
+		rel="stylesheet" />
+	<link
+		href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"
+		rel="stylesheet" />
+</h:head>
 <h:body>
 	<h1>Cadastro de Clubes</h1>
 	<h:form>
-		<h:commandLink value="Torneios" action="#{torneioBean.formTorneio}"
-			immediate="true" />
+		<h:commandLink value=" Início" action="#{torneioBean.formInicial}"
+			immediate="true" styleClass="btn btn-default icon-home">
+		</h:commandLink>
 		<h:messages />
 		<fieldset>
 			<h:panelGrid>
@@ -22,7 +31,7 @@
 				<h:outputLabel value="Nacionalidade: " for="nacionalidade" />
 				<h:inputText id="nacionalidade"
 					value="#{clubeBean.clube.nacionalidade}" />
-				<h:commandButton value="Salvar" actionListener="#{clubeBean.salvar}" />
+				<h:commandLink value=" Salvar" actionListener="#{clubeBean.salvar}" styleClass="btn btn-default icon-save" />
 			</h:panelGrid>
 		</fieldset>
 		<h:dataTable value="#{clubeBean.clubes}" var="clube">
